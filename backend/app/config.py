@@ -1,12 +1,13 @@
 import os
 
 database_name = "casting-agency-db"
+test_database_name = "casting-agency-db-test"
 postgres_local_base = "postgresql://{}/{}".format('localhost:5432', database_name)
+postgres_local_base_test = "postgresql://{}/{}".format('localhost:5432', test_database_name)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     DEBUG = False
 
 
@@ -19,7 +20,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flask_boilerplate_test.db')
+    SQLALCHEMY_DATABASE_URI = postgres_local_base_test
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -34,5 +35,3 @@ config_by_name = dict(
     test=TestingConfig,
     prod=ProductionConfig
 )
-
-key = Config.SECRET_KEY
