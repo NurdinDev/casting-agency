@@ -1,11 +1,9 @@
-import os
 import unittest
 
 from flask import current_app
 from flask_testing import TestCase
 
 from manage import app
-from app.config import basedir
 
 from app.config import postgres_local_base_test, postgres_local_base
 
