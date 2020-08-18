@@ -33,8 +33,8 @@ class Actor(db.Model):
 		db.session.commit()
 
 	def update(self, data):
-		for key, item in data.items():
-			setattr(self, key, item)
+		for key in data:
+			setattr(self, key, data.get(key))
 		self.modified_at = datetime.datetime.utcnow()
 		db.session.commit()
 
@@ -47,7 +47,9 @@ class Actor(db.Model):
 			'id': self.id,
 			'name': self.name,
 			'age': self.age,
-			'gender': self.gender
+			'gender': self.gender,
+			'created_at': self.created_at,
+			'modified_at': self.modified_at
 		}
 
 	def short_format(self):

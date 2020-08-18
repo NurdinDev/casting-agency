@@ -16,6 +16,21 @@ def actor_api(app):
 			'actors': [actor.format() for actor in actors]
 		})
 
+	@app.route('/actors/<int:actor_id>', methods=['GET'])
+	def get_single_actor(actor_id):
+		"""
+		Get single actor information
+		"""
+		actor = Actor.get_one_actor(actor_id)
+
+		if not actor:
+			abort(404)
+
+		return jsonify({
+			'success': True,
+			'actor': Actor.format(actor)
+		})
+
 	@app.route('/actors', methods=['POST'])
 	def add_actors():
 		"""
@@ -39,7 +54,7 @@ def actor_api(app):
 			print(e)
 			abort(422)
 
-	@app.route('/actor/<int:id>', methods=['PATCH'])
+	@app.route('/actors/<int:id>', methods=['PATCH'])
 	def patch_actor(id):
 		actor = Actor.get_one_actor(id)
 		if not actor:
@@ -47,11 +62,7 @@ def actor_api(app):
 
 		try:
 			body = request.get_json()
-			name = body.get('name', None)
-			if name:
-				actor.name = name
-
-			actor.update()
+			actor.update(body)
 			actors = Actor.get_all_actors()
 
 			return jsonify({
@@ -61,7 +72,7 @@ def actor_api(app):
 		except UnprocessableEntity:
 			abort(422)
 
-	@app.route('/actor/<int:id>', methods=['DELETE'])
+	@app.route('/actors/<int:id>', methods=['DELETE'])
 	def delete_actor(id):
 		actor = Actor.get_one_actor(id)
 		if not actor:
