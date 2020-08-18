@@ -42,8 +42,9 @@ class Movie(db.Model):
 		db.session.commit()
 
 	def update(self, data):
-		for key, item in data.items():
-			setattr(self, key, item)
+		print(data)
+		for key in data:
+			setattr(self, key, data.get(key))
 		self.modified_at = datetime.datetime.utcnow()
 		db.session.commit()
 
@@ -55,7 +56,9 @@ class Movie(db.Model):
 		return {
 			'id': self.id,
 			'name': self.name,
-			'actors': [actor.short_format() for actor in self.actors]
+			'actors': [actor.short_format() for actor in self.actors],
+			'created_at': self.created_at,
+			'modified_at': self.modified_at
 		}
 
 	@staticmethod

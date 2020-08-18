@@ -2,6 +2,7 @@ from flask import request, jsonify, abort
 from app.model.movie import Movie
 import json
 
+
 def movie_api(app):
 	@app.route('/movies', methods=['GET'])
 	def get_movies():
@@ -22,6 +23,9 @@ def movie_api(app):
 		"""
 		movie = Movie.get_one_movie(movie_id)
 
+		if not movie:
+			abort(404)
+			
 		return jsonify({
 			'success': True,
 			'movie': Movie.format(movie)
@@ -46,11 +50,10 @@ def movie_api(app):
 				"success": True,
 				"movies": [movie.format() for movie in movies]
 			})
-		except Exception as e:
-			print(e)
+		except Exception:
 			abort(422)
 
-	@app.route('/movie/<int:id>', methods=['PATCH'])
+	@app.route('/movies/<int:id>', methods=['PATCH'])
 	def patch_movie(id):
 		movie = Movie.get_one_movie(id)
 		if not movie:
@@ -58,24 +61,17 @@ def movie_api(app):
 
 		try:
 			body = request.get_json()
-			name = body.get('name', None)
-			about = body.get('about', None)
-			if name:
-				movie.name = name
-			if about:
-				movie.about = about
-
-			movie.update()
+			movie.update(body)
 			movies = Movie.get_all_movies()
 
 			return jsonify({
 				"success": True,
 				"movies": [movie.format() for movie in movies]
 			})
-		except Exception as e:
+		except Exception:
 			abort(422)
 
-	@app.route('/movie/<int:id>', methods=['DELETE'])
+	@app.route('/movies/<int:id>', methods=['DELETE'])
 	def delete_movie(id):
 		movie = Movie.get_one_movie(id)
 		if not movie:
