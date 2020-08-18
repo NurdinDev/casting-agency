@@ -50,6 +50,11 @@ class Actor(db.Model):
 			'gender': self.gender
 		}
 
+	def short_format(self):
+		return {
+			'name': self.name
+		}
+
 	@staticmethod
 	def get_all_actors():
 		return Actor.query.all()
