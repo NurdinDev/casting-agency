@@ -5,7 +5,6 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import create_app, db
-from app.model import movie, actor
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 

@@ -1,5 +1,6 @@
 from flask import request, jsonify, abort
 from app.model.movie import Movie
+import json
 
 def movie_api(app):
 	@app.route('/movies', methods=['GET'])
@@ -12,6 +13,18 @@ def movie_api(app):
 		return jsonify({
 			'success': True,
 			'movies': [movie.format() for movie in movies]
+		})
+
+	@app.route('/movies/<int:movie_id>', methods=['GET'])
+	def get_single_movie(movie_id):
+		"""
+		Get single movies information
+		"""
+		movie = Movie.get_one_movie(movie_id)
+
+		return jsonify({
+			'success': True,
+			'movie': Movie.format(movie)
 		})
 
 	@app.route('/movies', methods=['POST'])
@@ -75,4 +88,3 @@ def movie_api(app):
 			})
 		except Exception as e:
 			abort(422)
-
