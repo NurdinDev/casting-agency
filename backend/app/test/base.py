@@ -1,20 +1,22 @@
 from flask_testing import TestCase
-
 from app import db
+from app.test.dummy_data import init_movie_dummy_data
 from manage import app
 
 
 class BaseTestCase(TestCase):
-    """ Base Tests """
+	""" Base Tests """
 
-    def create_app(self):
-        app.config.from_object('app.config.TestingConfig')
-        return app
+	def create_app(self):
+		app.config.from_object('app.config.TestingConfig')
+		return app
 
-    def setUp(self):
-        db.create_all()
-        db.session.commit()
+	def setUp(self):
+		db.create_all()
+		init_movie_dummy_data()
+		# db.session.commit()
 
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+	def tearDown(self):
+		db.session.remove()
+		db.drop_all()
+
