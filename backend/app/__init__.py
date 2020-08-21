@@ -36,7 +36,7 @@ def create_app(config_name):
 		return response
 
 	@app.errorhandler(UnprocessableEntity)
-	def unprocessable():
+	def unprocessable(self):
 		return jsonify({
 			'success': False,
 			'error': 422,

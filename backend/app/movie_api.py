@@ -1,6 +1,5 @@
 from flask import request, jsonify, abort
 from app.model.movie import Movie
-import json
 
 
 def movie_api(app):
@@ -25,7 +24,7 @@ def movie_api(app):
 
 		if not movie:
 			abort(404)
-			
+
 		return jsonify({
 			'success': True,
 			'movie': Movie.format(movie)
@@ -45,7 +44,6 @@ def movie_api(app):
 			movie.save()
 			movies = Movie.get_all_movies()
 
-			print(movies)
 			return jsonify({
 				"success": True,
 				"movies": [movie.format() for movie in movies]
