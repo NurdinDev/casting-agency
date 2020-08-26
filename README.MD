@@ -10,3 +10,12 @@ In this project I will present what I learned in the Full-Stack web development 
 
 ## Frontend
   - React app to perform all the endpoints
+
+
+## Login Information
+
+| Email                 | Password      | Role      |
+| :---------------------| :-------------| :---------|
+| director@example.com  | password*123# | Director  |
+| producer@example.com  | password*123# | Producer  |
+| assistant@example.com | password*123# | Assistant |
