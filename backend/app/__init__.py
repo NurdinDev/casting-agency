@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from .config import config_by_name
-from app.auth.auth import AuthError, requires_auth
+from app.auth.auth import AuthError, requires_auth, AUTH0_DOMAIN, API_AUDIENCE
 from werkzeug.exceptions import HTTPException, UnprocessableEntity, Forbidden, NotFound, InternalServerError, BadRequest
 import json
 

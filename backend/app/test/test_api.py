@@ -1,5 +1,17 @@
+import os
+
 from app.test.base import BaseTestCase
 import json
+
+director_header = {
+	'Authorization': 'Bearer ' + os.environ.get('DIRECTOR_TOKEN')
+}
+assistant_header = {
+	'Authorization': 'Bearer ' + os.environ.get('ASSISTANT_TOKEN')
+}
+producer_header = {
+	'Authorization': 'Bearer ' + os.environ.get('PRODUCER_TOKEN')
+}
 
 
 class ApiTestCase(BaseTestCase):
@@ -18,21 +30,39 @@ class ApiTestCase(BaseTestCase):
 		self.assert200(res)
 		self.assertEqual(data['success'], True)
 
-	def test_get_movies(self):
+	def test_get_movies_unAuthorize(self):
 		res = self.client.get('/movies')
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_get_movies(self):
+		res = self.client.get('/movies', headers=assistant_header)
 		data = json.loads(res.data)
 		self.assert200(res)
 		self.assertEqual(data['success'], True)
 
-	def test_post_movie(self):
-		res = self.client.post('/movies', json=self.new_movie)
+	def test_post_movie_assistant_role(self):
+		res = self.client.post('/movies', json=self.new_movie, headers=assistant_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_post_movie_director_role(self):
+		res = self.client.post('/movies', json=self.new_movie, headers=director_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_post_movie_producer_role(self):
+		res = self.client.post('/movies', json=self.new_movie, headers=producer_header)
 		data = json.loads(res.data)
 		self.assert200(res)
 		self.assertEqual(data['success'], True)
 		self.assertTrue(len(data['movies']))
 
-	def test_post_movie_422(self):
-		res = self.client.post('/movies', json=self.new_movie_422)
+	def test_post_movie_unprocessable(self):
+		res = self.client.post('/movies', json=self.new_movie_422, headers=producer_header)
 		data = json.loads(res.data)
 		self.assertEqual(res.status_code, 422)
 		self.assertEqual(data['success'], False)
