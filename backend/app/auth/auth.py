@@ -4,7 +4,7 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-AUTH0_DOMAIN = 'dev-w8atoo8w.eu.auth0.com'
+AUTH0_DOMAIN = 'badawi.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'http://127.0.0.1:5000'
 
@@ -85,6 +85,7 @@ def verify_decode_jwt(token):
 				'n': key['n'],
 				'e': key['e']
 			}
+
 	if rsa_key:
 		try:
 			payload = jwt.decode(

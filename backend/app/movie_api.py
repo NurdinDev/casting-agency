@@ -1,10 +1,14 @@
 from flask import request, jsonify, abort
+from flask_cors import CORS
+
+from app import requires_auth
 from app.model.movie import Movie
 
 
 def movie_api(app):
 	@app.route('/movies', methods=['GET'])
-	def get_movies():
+	@requires_auth('get:movies')
+	def get_movies(payload):
 		"""
 		Get all movies information
 		"""
@@ -16,7 +20,8 @@ def movie_api(app):
 		})
 
 	@app.route('/movies/<int:movie_id>', methods=['GET'])
-	def get_single_movie(movie_id):
+	@requires_auth('get:movies')
+	def get_single_movie(payload, movie_id):
 		"""
 		Get single movies information
 		"""
@@ -31,6 +36,7 @@ def movie_api(app):
 		})
 
 	@app.route('/movies', methods=['POST'])
+	@requires_auth('post:movies')
 	def add_movies():
 		"""
 		Create new movie record
@@ -51,9 +57,10 @@ def movie_api(app):
 		except Exception:
 			abort(422)
 
-	@app.route('/movies/<int:id>', methods=['PATCH'])
-	def patch_movie(id):
-		movie = Movie.get_one_movie(id)
+	@app.route('/movies/<int:movie_id>', methods=['PATCH'])
+	@requires_auth('patch:movies')
+	def patch_movie(payload, movie_id):
+		movie = Movie.get_one_movie(movie_id)
 		if not movie:
 			abort(404)
 
@@ -69,9 +76,10 @@ def movie_api(app):
 		except Exception:
 			abort(422)
 
-	@app.route('/movies/<int:id>', methods=['DELETE'])
-	def delete_movie(id):
-		movie = Movie.get_one_movie(id)
+	@app.route('/movies/<int:movie_id>', methods=['DELETE'])
+	@requires_auth('delete:movies')
+	def delete_movie(payload, movie_id):
+		movie = Movie.get_one_movie(movie_id)
 		if not movie:
 			abort(404)
 		try:
