@@ -1,11 +1,14 @@
 from flask import request, jsonify
+
+from app import requires_auth
 from app.model.actor import Actor
 from werkzeug.exceptions import UnprocessableEntity, HTTPException, abort
 
 
 def actor_api(app):
 	@app.route('/actors', methods=['GET'])
-	def get_actors():
+	@requires_auth('get:actors')
+	def get_actors(payload):
 		"""
 		Get all actors information
 		"""
@@ -17,7 +20,8 @@ def actor_api(app):
 		})
 
 	@app.route('/actors/<int:actor_id>', methods=['GET'])
-	def get_single_actor(actor_id):
+	@requires_auth('get:actors')
+	def get_single_actor(payload, actor_id):
 		"""
 		Get single actor information
 		"""
@@ -32,6 +36,7 @@ def actor_api(app):
 		})
 
 	@app.route('/actors', methods=['POST'])
+	@requires_auth('post:actors')
 	def add_actors():
 		"""
 		Create new actor record
@@ -54,9 +59,10 @@ def actor_api(app):
 			print(e)
 			abort(422)
 
-	@app.route('/actors/<int:id>', methods=['PATCH'])
-	def patch_actor(id):
-		actor = Actor.get_one_actor(id)
+	@app.route('/actors/<int:actor_id>', methods=['PATCH'])
+	@requires_auth('patch:actors')
+	def patch_actor(payload, actor_id):
+		actor = Actor.get_one_actor(actor_id)
 		if not actor:
 			abort(404)
 
@@ -72,9 +78,10 @@ def actor_api(app):
 		except UnprocessableEntity:
 			abort(422)
 
-	@app.route('/actors/<int:id>', methods=['DELETE'])
-	def delete_actor(id):
-		actor = Actor.get_one_actor(id)
+	@app.route('/actors/<int:actor_id>', methods=['DELETE'])
+	@requires_auth('delete:actors')
+	def delete_actor(payload, actor_id):
+		actor = Actor.get_one_actor(actor_id)
 		if not actor:
 			abort(404)
 		try:
