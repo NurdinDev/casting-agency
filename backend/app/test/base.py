@@ -14,9 +14,7 @@ class BaseTestCase(TestCase):
 	def setUp(self):
 		db.create_all()
 		init_movie_dummy_data()
-		# db.session.commit()
 
 	def tearDown(self):
 		db.session.remove()
 		db.drop_all()
-

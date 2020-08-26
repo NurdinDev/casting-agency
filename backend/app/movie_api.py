@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort
-from flask_cors import CORS
+from flask_cors import cross_origin
 
 from app import requires_auth
 from app.model.movie import Movie
@@ -7,6 +7,7 @@ from app.model.movie import Movie
 
 def movie_api(app):
 	@app.route('/movies', methods=['GET'])
+	@cross_origin(headers=["Content-Type", "Authorization"])
 	@requires_auth('get:movies')
 	def get_movies(payload):
 		"""
@@ -20,6 +21,7 @@ def movie_api(app):
 		})
 
 	@app.route('/movies/<int:movie_id>', methods=['GET'])
+	@cross_origin(headers=["Content-Type", "Authorization"])
 	@requires_auth('get:movies')
 	def get_single_movie(payload, movie_id):
 		"""
@@ -36,8 +38,9 @@ def movie_api(app):
 		})
 
 	@app.route('/movies', methods=['POST'])
+	@cross_origin(headers=["Content-Type", "Authorization"])
 	@requires_auth('post:movies')
-	def add_movies():
+	def add_movies(payload):
 		"""
 		Create new movie record
 		"""
@@ -58,6 +61,7 @@ def movie_api(app):
 			abort(422)
 
 	@app.route('/movies/<int:movie_id>', methods=['PATCH'])
+	@cross_origin(headers=["Content-Type", "Authorization"])
 	@requires_auth('patch:movies')
 	def patch_movie(payload, movie_id):
 		movie = Movie.get_one_movie(movie_id)
@@ -77,6 +81,7 @@ def movie_api(app):
 			abort(422)
 
 	@app.route('/movies/<int:movie_id>', methods=['DELETE'])
+	@cross_origin(headers=["Content-Type", "Authorization"])
 	@requires_auth('delete:movies')
 	def delete_movie(payload, movie_id):
 		movie = Movie.get_one_movie(movie_id)

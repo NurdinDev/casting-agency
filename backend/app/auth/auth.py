@@ -1,12 +1,14 @@
 import json
-from flask import request, _request_ctx_stack, abort
+import os
+
+from flask import request
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-AUTH0_DOMAIN = 'badawi.auth0.com'
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'http://127.0.0.1:5000'
+API_AUDIENCE = os.environ.get('API_AUDIENCE')
 
 # AuthError Exception
 '''
@@ -140,3 +142,18 @@ def requires_auth(permission=''):
 		return wrapper
 
 	return requires_auth_decorator
+
+
+def requires_scope(required_scope):
+	"""Determines if the required scope is present in the Access Token
+	Args:
+		required_scope (str): The scope required to access the resource
+	"""
+	token = get_token_auth_header()
+	unverified_claims = jwt.get_unverified_claims(token)
+	if unverified_claims.get("scope"):
+		token_scopes = unverified_claims["scope"].split()
+		for token_scope in token_scopes:
+			if token_scope == required_scope:
+				return True
+	return False
