@@ -34,39 +34,52 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route path="/movies" component={Movies} exact={true} />
-          <Route path="/actors" component={Actors} exact={true} />
-          <Route path="/actors/:id" component={SingleActor} exact={true} />
-          <Route path="/account" component={Account} />
-          <Route
-            path="/"
-            render={() => <Redirect to="/movies" />}
-            exact={true}
-          />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="movies" href="/movies">
-            <IonIcon icon={triangle} />
-            <IonLabel>Movies</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="actors" href="/actors">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Actors</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="account" href="/account">
-            <IonIcon icon={square} />
-            <IonLabel>Account</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const { isLoading, error } = useAuth0();
+
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/movies" component={Movies} exact={true} />
+            <Route path="/actors" component={Actors} exact={true} />
+            <Route path="/actors/:id" component={SingleActor} exact={true} />
+            <Route path="/account" component={Account} />
+            <Route
+              path="/"
+              render={() => <Redirect to="/movies" />}
+              exact={true}
+            />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="movies" href="/movies">
+              <IonIcon icon={triangle} />
+              <IonLabel>Movies</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="actors" href="/actors">
+              <IonIcon icon={ellipse} />
+              <IonLabel>Actors</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="account" href="/account">
+              <IonIcon icon={square} />
+              <IonLabel>Account</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
