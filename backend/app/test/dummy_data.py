@@ -21,5 +21,3 @@ def init_movie_dummy_data():
 	for movie in movies:
 		mov = Movie(movie)
 		mov.save()
-
-
