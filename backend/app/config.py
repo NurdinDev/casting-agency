@@ -1,9 +1,7 @@
 import os
 
-database_name = "casting-agency-db"
-test_database_name = "casting-agency-db-test"
-postgres_local_base = "postgresql://{}/{}".format('localhost:5432', database_name)
-postgres_local_base_test = "postgresql://{}/{}".format('localhost:5432', test_database_name)
+postgres_local_base = os.environ.get('DATABASE_URL')
+postgres_local_base_test = os.environ.get('TEST_DATABASE_URL')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
