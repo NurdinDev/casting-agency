@@ -4,13 +4,13 @@ from app.test.base import BaseTestCase
 import json
 
 director_header = {
-	'Authorization': 'Bearer ' + os.environ.get('DIRECTOR_TOKEN')
+	'Authorization': 'Bearer ' + str(os.getenv('DIRECTOR_TOKEN'))
 }
 assistant_header = {
-	'Authorization': 'Bearer ' + os.environ.get('ASSISTANT_TOKEN')
+	'Authorization': 'Bearer ' + str(os.getenv('ASSISTANT_TOKEN'))
 }
 producer_header = {
-	'Authorization': 'Bearer ' + os.environ.get('PRODUCER_TOKEN')
+	'Authorization': 'Bearer ' + str(os.getenv('PRODUCER_TOKEN'))
 }
 
 

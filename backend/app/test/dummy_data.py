@@ -1,4 +1,5 @@
 from app.model.movie import Movie
+from app.model.actor import Actor
 
 movies = [
 	{
@@ -16,8 +17,31 @@ movies = [
 	}
 ]
 
+actors = [
+	{
+		'name': 'actor 1',
+		'age': '29',
+		'gender': 'male'
+	}, 	{
+		'name': 'actor 2',
+		'age': '19',
+		'gender': 'female'
+	}, 	{
+		'name': 'actor 3',
+		'age': '29',
+		'gender': 'male'
+	}, 	{
+		'name': 'actor 4',
+		'age': '29',
+		'gender': 'female'
+	}
+]
 
-def init_movie_dummy_data():
-	for movie in movies:
-		mov = Movie(movie)
-		mov.save()
+
+def dummy_data():
+	for item in range(4):
+		actor = Actor(actors[item])
+		movie = Movie(movies[item])
+		movie.actors.append(actor)
+		movie.save()
+		actor.save()
