@@ -3,12 +3,14 @@ The Casting Agency models a company that is responsible for creating movies and 
 In this project I will present what I learned in the Full-Stack web development Nanodegree program at Udacity.
 
 # Tech-Stack
-## Backend
+## Backend:
+  - Deployed here: https://nureddin-casting-agency.herokuapp.com
   - Flask as a micro framework for Python
   - SQLAlchemy for Data Modeling
   - Auth0 as a user authentication and user permission service
 
 ## Frontend
+  - Deployed here: https://nureddin-casting-agency-ionic.herokuapp.com/
   - React app to perform all the endpoints
 
 
