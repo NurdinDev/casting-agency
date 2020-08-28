@@ -16,7 +16,7 @@ To run application: make run
 To run all commands at once : make all
 ```
 
-view the app in this url: `http://127.0.0.1:5000/`
+View the app in this url: `http://127.0.0.1:5000/`
 
 ##### Key Dependencies
 
@@ -28,6 +28,18 @@ view the app in this url: `http://127.0.0.1:5000/`
 
 
 ## API Reference
+ - NOTE: all the APIs are protected that means you must be a user in this app and has one of those role privileges
+  - Assistant
+    - can `get:actors`
+    - can `get:movies`
+  - Director
+    - can perform all actions Casting Assistant has
+    - can `post:actors`
+    - can `delete:actors`
+    - can `patch:actors`
+    - can `patch:movies`
+  - Producer
+    - can perform all actions
 
 ### Gating Started
   - Base URL: the backend app is hosted at http://127.0.0.1:5000, which set as a proxy in the frontend configuration.
@@ -48,9 +60,11 @@ view the app in this url: `http://127.0.0.1:5000/`
   - 422: Not Processable
 
 ### End Points
+
+#### Actors
   - GET: `/actors`
+    - Requires auth `get:actors`
     - Return all registered actors.
-    - Authentication: No
     - Sample: `curl http://127.0.0.1:5000/actors`
     ```json
     {
@@ -72,8 +86,8 @@ view the app in this url: `http://127.0.0.1:5000/`
 
 
   - POST: `/actors`
+    - Requires auth `post:actors`
     - Create new actor
-    - Authentication: yes
     - Permissions: `post:actors`
     - Sample: `curl -X POST http://127.0.0.1:5000/actors -H "Content-Type: application/json" -d '{"name":" Denzel Washington ","age":50, "gender":"male"}'`
     ```json
@@ -84,7 +98,8 @@ view the app in this url: `http://127.0.0.1:5000/`
     ```
 
   - DELETE `/actors`
-    - delete actor
+    - Requires auth `delete:actors`
+    - Delete actor
     - Sample: `curl -X DELETE http://127.0.0.1:5000/actors/1`
     ```json
     {
@@ -106,6 +121,7 @@ view the app in this url: `http://127.0.0.1:5000/`
     }
     ```
   - PATCH `/actors`
+    - Requires auth `patch:actors`
     - Update actor
     - Sample: `curl -X PUT http://127.0.0.1:5000/actors/1 -H "Content-Type: application/json" -d '{"age": 55}'`
     ```json
@@ -122,27 +138,72 @@ view the app in this url: `http://127.0.0.1:5000/`
             "name": " Denzel Washington ",
             "age": 50,
             "gender": "male"
-          } 
+          }
       ],
-      "total_actors": 3 
+      "total_actors": 3
     }
     ```
+#### Movies
   - GET: `/movies`
-    - return all registered movies.
+    - Requires auth `get:movies`
+    - Return all registered movies.
+     ```json
+    {
+        "movies": [
+          {
+            "name": "Name of the movie",
+            "about": "about the movie"
+          },
+          {
+            "name": "Name of the movie",
+            "about": "about the movie"
+          }
+        ],
+        "success":true
+    }
+    ```
   - POST: `/movies`
-    - create new movie
+    - Requires auth `post:movies`
+    - Create new movie
   - DELETE `/movies`
-    - delete movie
+    - Requires auth `delete:movies`
+    - Delete movie
   - PATCH `/movies`
-    - update movie
+    - Requires auth `patch:movies`
+    - Update movie
+     ```json
+    {
+      "updated": true,
+      "success": true,
+      "movies": [
+        {
+            "name": "Robert De Niro",
+            "age": 60,
+            "gender": "male"
+          },
+          {
+            "name": " Denzel Washington ",
+            "age": 50,
+            "gender": "male"
+          }
+      ],
+      "total_actors": 3
+    }
+    ```
 
-## TODO
+## Customize your own Auth0
+    - By default and for reviewing pourpose I've prepred an Auth0 account and I put all the information inside `.evn.example`
+    if you need to make your own Auth0 follow the instruction to create and configer your Auth0 appliction.
 
-### Setup Auth0
-1. Create a new Auth0 Account
-2. Create a single page web app application
-3. Create a new API and enable RBAC
-4. Create new API permissions:
+### Setup Auth0 for your own
+1. Create a new Auth0 Account from [here](https://auth0.com/)
+2. Create a single page web app application.
+3. Create a new API and enable RBAC.
+4. Change .env file
+    - *AUTH0_DOMAIN* your auth0 domain name
+    - *API_AUDIENCE* your audience URL
+    - *ALGORITHMS* by default is `[RS256]` you can change it if you need.
+5. Create new API permissions:
   - `get:actors`
   - `post:actors`
   - `delete:actors`
@@ -151,7 +212,7 @@ view the app in this url: `http://127.0.0.1:5000/`
   - `post:movies`
   - `delete:movies`
   - `patch:movies`
-5. Create new roles for:
+6. Create new roles for:
   - Casting Assistant
     - can `get:actors`
     - can `get:movies`
@@ -163,3 +224,5 @@ view the app in this url: `http://127.0.0.1:5000/`
     - can `patch:movies`
   - Executive Producer
     - can perform all actions
+
+  - Now your Auth0 is ready 🌱.
