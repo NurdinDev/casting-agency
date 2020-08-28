@@ -19,7 +19,7 @@ import {
   IonButtons,
   IonButton,
 } from "@ionic/react";
-import { API_URL } from "../constants";
+import { API_URL, returnTo } from "../constants";
 import { useHistory } from "react-router-dom";
 import { add } from "ionicons/icons";
 import MoviesModal from "./MoviesModal";
@@ -166,11 +166,14 @@ const Movies: React.FC = () => {
                 Login
               </IonButton>
             ) : (
-              <IonButton color="secondary" onClick={() => logout(
-                {
-                  returnTo: process.env.IONIC_APP_URL || 'http://localhost:8100'
+              <IonButton
+                color="secondary"
+                onClick={() =>
+                  logout({
+                    returnTo: returnTo,
+                  })
                 }
-              )}>
+              >
                 Log-out
               </IonButton>
             )}
@@ -201,6 +204,7 @@ const Movies: React.FC = () => {
           <IonText color="danger">{error}</IonText>
         ) : (
           <IonList>
+            {movies.length == 0 && <p>No Registerd Movies</p>}
             {movies.map((movie: any) => (
               <IonItemSliding key={movie.id}>
                 <IonItemOptions side="end">
