@@ -11,3 +11,10 @@ Note: make sure your server "Flask APP" is working.
 ## End-Points
 - check the README in the backend project at the same repo.
 
+
+
+
+## TODO
+- [ ] show actors list
+- [ ] show single movie page
+- [ ] show single actor page

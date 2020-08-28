@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Can from "../components/Can";
+import { returnTo } from "../constants";
 
 const Account: React.FC = () => {
   const {
@@ -68,7 +69,10 @@ const Account: React.FC = () => {
                 Login
               </IonButton>
             ) : (
-              <IonButton color="secondary" onClick={() => logout()}>
+              <IonButton
+                color="secondary"
+                onClick={() => logout({ returnTo: returnTo })}
+              >
                 Log-out
               </IonButton>
             )}
