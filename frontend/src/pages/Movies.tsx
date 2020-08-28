@@ -166,7 +166,11 @@ const Movies: React.FC = () => {
                 Login
               </IonButton>
             ) : (
-              <IonButton color="secondary" onClick={() => logout()}>
+              <IonButton color="secondary" onClick={() => logout(
+                {
+                  returnTo: process.env.IONIC_APP_URL || 'http://localhost:8100'
+                }
+              )}>
                 Log-out
               </IonButton>
             )}
