@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 from app import db
-from app.test.dummy_data import init_movie_dummy_data
+from app.test.dummy_data import dummy_data
 from manage import app
 
 
@@ -13,7 +13,7 @@ class BaseTestCase(TestCase):
 
 	def setUp(self):
 		db.create_all()
-		init_movie_dummy_data()
+		dummy_data()
 
 	def tearDown(self):
 		db.session.remove()
