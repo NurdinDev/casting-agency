@@ -44,8 +44,8 @@ class ApiTestCase(BaseTestCase):
 	def test_post_actors_director_role(self):
 		res = self.client.post('/actors', json=self.new_actor, headers=self.director_header)
 		data = json.loads(res.data)
-		self.assert401(res)
-		self.assertEqual(data['success'], False)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
 
 	def test_post_actors_producer_role(self):
 		res = self.client.post('/actors', json=self.new_actor, headers=self.producer_header)
@@ -69,8 +69,8 @@ class ApiTestCase(BaseTestCase):
 	def test_patch_actors_director_role(self):
 		res = self.client.patch('/actors/1', json=self.update_actor, headers=self.director_header)
 		data = json.loads(res.data)
-		self.assert401(res)
-		self.assertEqual(data['success'], False)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
 
 	def test_patch_actors_producer_role(self):
 		res = self.client.patch('/actors/1', json=self.update_actor, headers=self.producer_header)
@@ -88,8 +88,9 @@ class ApiTestCase(BaseTestCase):
 	def test_delete_actors_director_role(self):
 		res = self.client.delete('/actors/1', headers=self.director_header)
 		data = json.loads(res.data)
-		self.assert401(res)
-		self.assertEqual(data['success'], False)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
+		self.assertEqual(data['delete'], 1)
 
 	def test_delete_actors_producer_role(self):
 		res = self.client.delete('/actors/1', headers=self.producer_header)
