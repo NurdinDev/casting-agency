@@ -68,8 +68,8 @@ class ApiTestCase(BaseTestCase):
 	def test_patch_movies_director_role(self):
 		res = self.client.patch('/movies/1', json=self.update_movie, headers=self.director_header)
 		data = json.loads(res.data)
-		self.assert401(res)
-		self.assertEqual(data['success'], False)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
 
 	def test_patch_movies_producer_role(self):
 		res = self.client.patch('/movies/1', json=self.update_movie, headers=self.producer_header)
