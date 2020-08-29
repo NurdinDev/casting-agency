@@ -20,6 +20,10 @@ class ApiTestCase(BaseTestCase):
 		'about': "about movie"
 	}
 
+	update_movie = {
+		'name': "new movie updated"
+	}
+
 	new_movie_422 = {
 		'name': "new movie"
 	}
@@ -66,3 +70,41 @@ class ApiTestCase(BaseTestCase):
 		data = json.loads(res.data)
 		self.assertEqual(res.status_code, 422)
 		self.assertEqual(data['success'], False)
+
+	def test_patch_movie_assistant_role(self):
+		res = self.client.patch('/movies/1', json=self.update_movie, headers=assistant_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_patch_movie_director_role(self):
+		res = self.client.patch('/movies/1', json=self.update_movie, headers=director_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_patch_movie_producer_role(self):
+		res = self.client.patch('/movies/1', json=self.update_movie, headers=producer_header)
+		data = json.loads(res.data)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
+		self.assertTrue(len(data['movies']))
+
+	def test_delete_movie_assistant_role(self):
+		res = self.client.delete('/movies/1', headers=assistant_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_delete_movie_director_role(self):
+		res = self.client.delete('/movies/1', headers=director_header)
+		data = json.loads(res.data)
+		self.assert401(res)
+		self.assertEqual(data['success'], False)
+
+	def test_delete_movie_producer_role(self):
+		res = self.client.delete('/movies/1', headers=producer_header)
+		data = json.loads(res.data)
+		self.assert200(res)
+		self.assertEqual(data['success'], True)
+		self.assertTrue(len(data['movies']))

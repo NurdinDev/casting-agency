@@ -91,7 +91,7 @@ def movie_api(app):
 			movie.delete()
 			return jsonify({
 				'success': True,
-				'delete': id
+				'delete': movie_id
 			})
-		except Exception as e:
+		except Exception:
 			abort(422)
