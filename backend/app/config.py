@@ -22,7 +22,6 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
 	DEBUG = True
 	TESTING = True
-	print(postgres_local_base_test)
 	SQLALCHEMY_DATABASE_URI = postgres_local_base_test
 	PRESERVE_CONTEXT_ON_EXCEPTION = False
 	SQLALCHEMY_TRACK_MODIFICATIONS = False

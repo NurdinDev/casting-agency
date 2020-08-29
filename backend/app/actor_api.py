@@ -1,8 +1,7 @@
-from flask import request, jsonify
+from flask import request, jsonify, abort
 
 from app import requires_auth
 from app.model.actor import Actor
-from werkzeug.exceptions import UnprocessableEntity, HTTPException, abort
 
 
 def actor_api(app):
@@ -37,7 +36,7 @@ def actor_api(app):
 
 	@app.route('/actors', methods=['POST'])
 	@requires_auth('post:actors')
-	def add_actors():
+	def add_actors(payload):
 		"""
 		Create new actor record
 		"""
@@ -55,8 +54,7 @@ def actor_api(app):
 				"success": True,
 				"actors": [actor.format() for actor in actors]
 			})
-		except HTTPException as e:
-			print(e)
+		except Exception:
 			abort(422)
 
 	@app.route('/actors/<int:actor_id>', methods=['PATCH'])
@@ -75,7 +73,7 @@ def actor_api(app):
 				"success": True,
 				"actors": [actor.format() for actor in actors]
 			})
-		except UnprocessableEntity:
+		except Exception:
 			abort(422)
 
 	@app.route('/actors/<int:actor_id>', methods=['DELETE'])
@@ -88,7 +86,7 @@ def actor_api(app):
 			actor.delete()
 			return jsonify({
 				'success': True,
-				'delete': id
+				'delete': actor_id
 			})
-		except UnprocessableEntity:
+		except Exception:
 			abort(422)
