@@ -226,3 +226,39 @@ View the app in this url: `http://127.0.0.1:5000/`
     - can perform all actions
 
   - Now your Auth0 is ready 🌱.
+
+
+### Testing
+this is all testing scenarios for Movies and Actors API
+
+````
+test_delete_actors_assistant_role (test_actors_api.ApiTestCase) ... ok
+test_delete_actors_director_role (test_actors_api.ApiTestCase) ... ok
+test_delete_actors_producer_role (test_actors_api.ApiTestCase) ... ok
+test_delete_actors_producer_role_404 (test_actors_api.ApiTestCase) ... ok
+test_get_actors (test_actors_api.ApiTestCase) ... ok
+test_get_actors_unAuthorize (test_actors_api.ApiTestCase) ... ok
+test_index (test_actors_api.ApiTestCase) ... ok
+test_patch_actors_assistant_role (test_actors_api.ApiTestCase) ... ok
+test_patch_actors_director_role (test_actors_api.ApiTestCase) ... ok
+test_patch_actors_producer_role (test_actors_api.ApiTestCase) ... ok
+test_post_actors_assistant_role (test_actors_api.ApiTestCase) ... ok
+test_post_actors_director_role (test_actors_api.ApiTestCase) ... ok
+test_post_actors_producer_role (test_actors_api.ApiTestCase) ... ok
+test_post_actors_unprocessable (test_actors_api.ApiTestCase) ... ok
+test_delete_movies_assistant_role (test_movies_api.ApiTestCase) ... ok
+test_delete_movies_director_role (test_movies_api.ApiTestCase) ... ok
+test_delete_movies_producer_role (test_movies_api.ApiTestCase) ... ok
+test_delete_movies_producer_role_404 (test_movies_api.ApiTestCase) ... ok
+test_get_movies (test_movies_api.ApiTestCase) ... ok
+test_get_movies_unAuthorize (test_movies_api.ApiTestCase) ... ok
+test_index (test_movies_api.ApiTestCase) ... ok
+test_patch_movies_assistant_role (test_movies_api.ApiTestCase) ... ok
+test_patch_movies_director_role (test_movies_api.ApiTestCase) ... ok
+test_patch_movies_producer_role (test_movies_api.ApiTestCase) ... ok
+test_post_movies_assistant_role (test_movies_api.ApiTestCase) ... ok
+test_post_movies_director_role (test_movies_api.ApiTestCase) ... ok
+test_post_movies_producer_role (test_movies_api.ApiTestCase) ... ok
+test_post_movies_unprocessable (test_movies_api.ApiTestCase) ... ok
+
+````
